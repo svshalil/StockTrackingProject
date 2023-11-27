@@ -2,12 +2,7 @@
 
 namespace DataAccess.Interfaces
 {
-    public interface IStockDal
+    public interface IStockDal : IGenericDal<Stock>
     {
-        void Insert(Stock request);
-        void Delete(Stock request);
-        void Update(Stock request);
-        Stock GetById(int id);
-        List<Stock> GetAll();
     }
 }

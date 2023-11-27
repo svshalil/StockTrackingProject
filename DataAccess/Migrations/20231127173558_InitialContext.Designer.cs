@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231124111840_InitialContext")]
+    [Migration("20231127173558_InitialContext")]
     partial class InitialContext
     {
         /// <inheritdoc />
@@ -27,167 +27,177 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Entities.Concrete.Currency", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"));
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.Property<string>("Symbol")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ID");
 
                     b.ToTable("Currencys");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Stock", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"));
 
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
                     b.Property<string>("CriticalAmount")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("RecordDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("ShelfInformation")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("StockClassID")
-                        .HasColumnType("int");
+                    b.Property<long>("StockClassID")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("StockClassName")
-                        .HasColumnType("int");
+                    b.Property<long>("StockTypeID")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("StockTypeID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StockTypeName")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StockUnitID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StockUnitName")
-                        .HasColumnType("int");
+                    b.Property<long>("StockUnitID")
+                        .HasColumnType("bigint");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ID");
+
+                    b.HasIndex("RecordDate");
 
                     b.HasIndex("StockClassID");
 
                     b.HasIndex("StockTypeID");
+
+                    b.HasIndex("StockUnitID");
 
                     b.ToTable("Stocks");
                 });
 
             modelBuilder.Entity("Entities.Concrete.StockClass", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"));
 
                     b.Property<string>("StockClassName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ID");
+
+                    b.HasIndex("StockClassName");
 
                     b.ToTable("StockClasss");
                 });
 
             modelBuilder.Entity("Entities.Concrete.StockType", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"));
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.Property<string>("StockTypeName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ID");
+
+                    b.HasIndex("StockTypeName");
 
                     b.ToTable("StockTypes");
                 });
 
             modelBuilder.Entity("Entities.Concrete.StockUnit", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ID"));
 
                     b.Property<string>("AmountUnit")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("ntext");
 
                     b.Property<int>("PaperWeight")
                         .HasColumnType("int");
 
                     b.Property<decimal>("PurchasePrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal");
 
-                    b.Property<string>("PurchasePriceCurrency")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PurchasePriceCurrencyID")
-                        .HasColumnType("int");
+                    b.Property<long>("PurchasePriceCurrencyID")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("RecordDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<decimal>("SalePrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal");
 
-                    b.Property<string>("SalePriceCurrency")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SalePriceCurrencyID")
-                        .HasColumnType("int");
+                    b.Property<long>("SalePriceCurrencyID")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("StockTypeID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StockTypeName")
-                        .HasColumnType("int");
+                    b.Property<long>("StockTypeID")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("StockUnitCode")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("StockUnitName")
-                        .HasColumnType("int");
+                    b.Property<string>("StockUnitName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("ID");
 
+                    b.HasIndex("ID");
+
                     b.HasIndex("StockTypeID");
+
+                    b.HasIndex("StockUnitCode");
 
                     b.ToTable("StockUnits");
                 });
@@ -203,12 +213,20 @@ namespace DataAccess.Migrations
                     b.HasOne("Entities.Concrete.StockType", "StockTypes")
                         .WithMany("Stocks")
                         .HasForeignKey("StockTypeID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Concrete.StockUnit", "StockUnits")
+                        .WithMany("Stocks")
+                        .HasForeignKey("StockUnitID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("StockClasss");
 
                     b.Navigation("StockTypes");
+
+                    b.Navigation("StockUnits");
                 });
 
             modelBuilder.Entity("Entities.Concrete.StockUnit", b =>
@@ -231,6 +249,11 @@ namespace DataAccess.Migrations
                 {
                     b.Navigation("StockUnits");
 
+                    b.Navigation("Stocks");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.StockUnit", b =>
+                {
                     b.Navigation("Stocks");
                 });
 #pragma warning restore 612, 618

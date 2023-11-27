@@ -15,6 +15,7 @@ namespace DataAccess.Concrete.EntityfremeworkCore.Mapping
         public void Configure(EntityTypeBuilder<StockClass> builder)
         {
             builder.HasKey(I => I.ID);
+            builder.Property(I => I.ID).HasColumnType("bigint").UseIdentityColumn();
             builder.Property(I => I.StockClassName).HasMaxLength(100);
 
             builder.HasIndex(I => I.ID);

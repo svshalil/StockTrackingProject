@@ -2,12 +2,7 @@
 
 namespace DataAccess.Interfaces
 {
-    public interface ICurrencyDal
+    public interface ICurrencyDal: IGenericDal<Currency>
     {
-        void Insert(Currency request);
-        void Delete(Currency request);
-        void Update(Currency request);
-        Currency GetById(int id);
-        List<Currency> GetAll();
     }
 }

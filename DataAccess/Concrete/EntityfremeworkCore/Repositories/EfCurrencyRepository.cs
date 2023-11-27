@@ -1,4 +1,5 @@
-﻿using DataAccess.Interfaces;
+﻿using DataAccess.Concrete.EntityfremeworkCore.Contexts;
+using DataAccess.Interfaces;
 using Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityfremeworkCore.Repositories
@@ -7,27 +8,37 @@ namespace DataAccess.Concrete.EntityfremeworkCore.Repositories
     {
         public void Delete(Currency request)
         {
-            throw new NotImplementedException();
+            using var db = new Context();
+            db.Currencys.Remove(request);
+            db.SaveChanges();
         }
 
         public List<Currency> GetAll()
         {
-            throw new NotImplementedException();
+            using var db = new Context();
+
+            return db.Currencys.ToList();
         }
 
         public Currency GetById(int id)
         {
-            throw new NotImplementedException();
+            using var db = new Context();
+
+            return db.Currencys.Find(id);
         }
 
         public void Insert(Currency request)
         {
-            throw new NotImplementedException();
+            using var db = new Context();
+            db.Currencys.Add(request);
+            db.SaveChanges();
         }
 
         public void Update(Currency request)
         {
-            throw new NotImplementedException();
+            using var db = new Context();
+            db.Currencys.Update(request);
+            db.SaveChanges();
         }
     }
 }

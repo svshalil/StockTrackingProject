@@ -13,7 +13,7 @@ namespace DataAccess.Concrete.EntityfremeworkCore.Contexts
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=HalilT; database=StockTracking; integrated security=true;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("server=HALIL\\HALIL; database=StockTracking; integrated security=true;TrustServerCertificate=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

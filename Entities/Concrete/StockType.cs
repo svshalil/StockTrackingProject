@@ -4,7 +4,7 @@ namespace Entities.Concrete
 {
     public class StockType: ITable
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
         public string? StockTypeName { get; set; }
         public bool Status { get; set; }
 
