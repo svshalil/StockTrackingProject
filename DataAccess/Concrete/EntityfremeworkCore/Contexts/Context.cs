@@ -1,19 +1,17 @@
 ﻿using DataAccess.Concrete.EntityfremeworkCore.Mapping;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityfremeworkCore.Contexts
 {
-    public class Context : DbContext
+    public class Context : IdentityDbContext<AppUser,AppRole,long>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=HALIL\\HALIL; database=StockTracking; integrated security=true;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("server=HALILT; database=StockTracking; integrated security=true;TrustServerCertificate=True");
+       
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,6 +21,8 @@ namespace DataAccess.Concrete.EntityfremeworkCore.Contexts
             modelBuilder.ApplyConfiguration(new StockUnitMap());
             modelBuilder.ApplyConfiguration(new StockTypeMap());
             modelBuilder.ApplyConfiguration(new StockClassMap());
+
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Stock> Stocks { get; set; }
