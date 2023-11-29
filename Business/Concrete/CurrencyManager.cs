@@ -1,40 +1,41 @@
 ﻿using Business.Interfaces;
 using DataAccess.Concrete.EntityfremeworkCore.Repositories;
+using DataAccess.Interfaces;
 using Entities.Concrete;
 
 namespace Business.Concrete
 {
     public class CurrencyManager : ICurrencyService
     {
-        private readonly EfCurrencyRepository _efCurrencyRepository;
+        private readonly ICurrencyDal _currencyDal;
 
-        public CurrencyManager(EfCurrencyRepository efCurrencyRepository)
+        public CurrencyManager(ICurrencyDal currencyDal)
         {
-            _efCurrencyRepository = efCurrencyRepository;
+            _currencyDal = currencyDal;
         }
         public void Delete(Currency request)
         {
-            _efCurrencyRepository.Delete(request);
+            _currencyDal.Delete(request);
         }
 
         public List<Currency> GetAll()
         {
-            return _efCurrencyRepository.GetAll();
+            return _currencyDal.GetAll();
         }
 
-        public Currency GetById(int id)
+        public Currency GetById(long id)
         {
-            return _efCurrencyRepository.GetById(id);
+            return _currencyDal.GetById(id);
         }
 
         public void Insert(Currency request)
         {
-            _efCurrencyRepository.Insert(request);
+            _currencyDal.Insert(request);
         }
 
         public void Update(Currency request)
         {
-            _efCurrencyRepository.Update(request);
+            _currencyDal.Update(request);
         }
     }
 }

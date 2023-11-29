@@ -157,6 +157,9 @@ namespace DataAccess.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
+                    b.Property<string>("CabinetInformation")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CriticalAmount")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");

@@ -1,0 +1,58 @@
+﻿@model List<StockRespnseModel>
+
+<section class="box" style="border-left: 3px solid #e77512;">
+    <header class="panel_header">
+        <h2 class="title pull-left">Stoklar</h2>
+        <div class="actions panel_actions pull-right">
+            <a class="box_toggle fa fa-chevron-down"></a>
+            <a class="box_setting fa fa-cog" data-toggle="modal" href="#section-settings"></a>
+            <a class="box_close fa fa-times"></a>
+        </div>
+    </header>
+    <div class="content-body">
+        <div class="row">
+            <div class="col-md-offset-10 mb-10 "> <a asp-action="StockInsert" asp-controller="Stock" class="btn btn-success">Yeni Stok Ekle</a> </div>
+
+            <div class="col-xs-12">
+                <div class="table-responsive" data-pattern="priority-columns">
+                    <table id="tech-companies-1" class="table table-small-font no-mb table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th data-priority="1">Birim Kodu</th>
+                                <th data-priority="3">Birim Açıklaması</th>
+                                <th data-priority="1">Stok Türü</th>
+                                <th data-priority="1">Toplam Stok Miktarı</th>
+                                <th data-priority="1">Kritik Miktar</th>
+                                <th data-priority="1">Sınıf Adı</th>
+                                <th data-priority="1">Raf Bilgisi</th>
+                                <th data-priority="1">Dolap Bilgisi</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <th><i class="fa fa-dot-circle-o complete"></i> @item.StockUnitCode</th>
+                                    <td> @item.UnitDescription</td>
+                                    <td><span class="status-complete">@item.StockTypeName</span></td>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.Amount</td>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.CriticalAmount</td>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.StockClassName</td>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.ShelfInformation</td>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.CabinetInformation</td>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.RecordDate</td>
+                                    <td><i class="fa fa-plus complete normal"></i></td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+

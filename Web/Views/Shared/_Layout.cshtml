@@ -1,49 +1,200 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Web.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Stok Takip</title>
+    <meta content="" name="description" />
+    <meta content="" name="author" />
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon" />
+    <!-- For iPhone -->
+    <link rel="apple-touch-icon-precomposed" href="../assets/images/apple-touch-icon-57-precomposed.png">
+    <!-- For iPhone 4 Retina display -->
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/images/apple-touch-icon-114-precomposed.png">
+    <!-- For iPad -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/images/apple-touch-icon-72-precomposed.png">
+    <!-- For iPad Retina display -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/images/apple-touch-icon-144-precomposed.png">
+
+    <!-- CORE CSS FRAMEWORK - START -->
+    <link href="../assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/plugins/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../assets/css/animate.min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/plugins/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" type="text/css" />
+    <!-- CORE CSS FRAMEWORK - END -->
+    <!-- HEADER SCRIPTS INCLUDED ON THIS PAGE - START -->
+    <!-- HEADER SCRIPTS INCLUDED ON THIS PAGE - END -->
+    <!-- CORE CSS TEMPLATE - START -->
+    <link href="../assets/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/css/responsive.css" rel="stylesheet" type="text/css" />
+    <!-- CORE CSS TEMPLATE - END -->
+
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+
+<body class=" ">
+    <!-- START TOPBAR -->
+    <div class='page-topbar '>
+        <div class='logo-area'>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+        <div class='quick-area'>
+            <div class="pull-left">
+                <ul class="info-menu left-links list-inline list-unstyled">
+                    <li class="sidebar-toggle-wrap">
+                        <a href="#" data-toggle="sidebar" class="sidebar_toggle">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class='pull-right'>
+                <ul class="info-menu right-links list-inline list-unstyled">
+                    <li class="profile">
+                        <a href="#" data-toggle="dropdown" class="toggle">
+                            <img src="../data/profile/profile.jpg" alt="user-image" class="img-circle img-inline">
+                            <span>Smith Wright <i class="fa fa-angle-down"></i></span>
+                        </a>
+                        <ul class="dropdown-menu profile animated fadeIn">
+                            <li>
+                                <a href="account-confirmation.html">
+                                    <i class="fa fa-wrench"></i> Settings
+                                </a>
+                            </li>
+                            <li>
+                                <a href="ui-profile.html">
+                                    <i class="fa fa-user"></i> Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a href="ui-support.html">
+                                    <i class="fa fa-info"></i> Help
+                                </a>
+                            </li>
+                            <li class="last">
+                                <a href="ui-login.html">
+                                    <i class="fa fa-lock"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="chat-toggle-wrapper">
+                        <a href="#" data-toggle="chatbar" class="toggle_chat">
+                            <i class="fa fa-comments"></i>
+                            <span class="badge badge-accent">9</span>
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!-- END TOPBAR -->
+    <!-- START CONTAINER -->
+    <div class="page-container row-fluid container-fluid">
+
+        <!-- SIDEBAR - START -->
+
+        <div class="page-sidebar fixedscroll">
+
+            <!-- MAIN MENU - START -->
+            <div class="page-sidebar-wrapper" id="main-menu-wrapper">
+
+
+                <ul class='wraplist'>
+                    <li class='menusection'>Menü</li>
+                    <li class="">
+                        <a href="index-dashboard-2.html">
+                            <i class="fa fa-th-large"></i>
+                            <span class="title">Stoklar</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="index-trading-view.html">
+                            <i class="fa fa-bullseye"></i>
+                            <span class="title">Stok Birim</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="index-ico-admin.html">
+                            <i class="fa fa-sitemap"></i>
+                            <span class="title">Stok Türü</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="index-ico-user.html">
+                            <i class="fa fa-user"></i>
+                            <span class="title">Stok Sınıfı</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="buy-and-sell.html">
+                            <i class="img">
+                                <img src="../data/icons/coins.png" style="width:16px" alt="">
+                            </i>
+                            <span class="title">Para Birimi</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="payment-gateways.html">
+                            <i class="fa fa-credit-card"></i>
+                            <span class="title">Kullanıcılar</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- MAIN MENU - END -->
+
+        </div>
+        <!--  SIDEBAR - END -->
+        <!-- START CONTENT -->
+        <section id="main-content" class=" ">
+            <div class="wrapper main-wrapper row" style=''>
+                @RenderBody()
+            </div>
+        </section>
+        <!-- END CONTENT -->
+        <div class="page-chatapi hideit">
+
+            <div class="search-bar">
+                <input type="text" placeholder="Search" class="form-control">
+            </div>
+
+            <div class="chat-wrapper">
+            </div>
+
+        </div>
+
+        <div class="chatapi-windows ">
+        </div>
+    </div>
+    <!-- END CONTAINER -->
+    <!-- LOAD FILES AT PAGE END FOR FASTER LOADING -->
+    <!-- CORE JS FRAMEWORK - START -->
+    <script src="../assets/js/jquery-1.11.2.min.js"></script>
+    <script src="../assets/js/jquery.easing.min.js"></script>
+    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../assets/plugins/pace/pace.min.js"></script>
+    <script src="../assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="../assets/plugins/viewport/viewportchecker.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="../assets/js/jquery-1.11.2.min.js"><\/script>');
+    </script>
+    <!-- CORE JS FRAMEWORK - END -->
+    <!-- OTHER SCRIPTS INCLUDED ON THIS PAGE - START -->
+    <!-- OTHER SCRIPTS INCLUDED ON THIS PAGE - END -->
+    <!-- CORE TEMPLATE JS - START -->
+    <script src="../assets/js/scripts.js"></script>
+    <!-- END CORE TEMPLATE JS - END -->
+
 </body>
+
+
+<!-- Mirrored from cryptonia-dashboard.bitballoon.com/html-dashboard/layout-default.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Aug 2018 08:49:57 GMT -->
 </html>

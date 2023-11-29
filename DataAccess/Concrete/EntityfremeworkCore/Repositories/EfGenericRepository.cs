@@ -26,7 +26,7 @@ namespace DataAccess.Concrete.EntityfremeworkCore.Repositories
             return db.Set<T>().ToList();
         }
 
-        public T GetById(int id)
+        public T GetById(long id)
         {
             using var db = new Context();
 

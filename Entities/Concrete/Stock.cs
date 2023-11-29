@@ -10,6 +10,7 @@ namespace Entities.Concrete
         public long StockUnitID { get; set; }
         public int Amount { get; set; }
         public string? ShelfInformation { get; set; }
+        public string? CabinetInformation { get; set; }
         public string? CriticalAmount { get; set; }
         public bool Status { get; set; }
         public DateTime RecordDate { get; set; }

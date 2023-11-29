@@ -13,7 +13,7 @@ namespace DataAccess.Interfaces
         void Insert(T request);
         void Delete(T request);
         void Update(T request);
-        T GetById(int id);
+        T GetById(long id);
         List<T> GetAll();
     }
 }

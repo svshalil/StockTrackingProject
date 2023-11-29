@@ -3,7 +3,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityfremeworkCore.Repositories
 {
-    public class EFStockTypeRepository : EfGenericRepository<StockType>, IStockTypeDal
+    public class EfStockTypeRepository : EfGenericRepository<StockType>, IStockTypeDal
     {
       
     }
