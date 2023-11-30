@@ -1,6 +1,6 @@
-﻿namespace Web.Models
+﻿namespace Web.Models.Response
 {
-    public class StockRespnseModel
+    public class InsertStockResponseModel
     {
         public long StockID { get; set; }
         public long StockUnitCode { get; set; }

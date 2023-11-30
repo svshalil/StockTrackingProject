@@ -1,4 +1,4 @@
-﻿@model List<InsertStockResponseModel>
+﻿@model List<InsertCurrencyResponseModel>
 
 <section class="box" style="border-left: 3px solid #e77512;">
     <header class="panel_header">
@@ -11,21 +11,15 @@
     </header>
     <div class="content-body">
         <div class="row">
-            <div class="col-md-offset-10 mb-10 "> <a asp-action="InsertStock" asp-controller="Stock" class="btn btn-success">Yeni Stok Ekle</a> </div>
+            <div class="col-md-offset-10 mb-10 "> <a asp-action="InsertCurrency" asp-controller="Currency" class="btn btn-success">Yeni Stok Ekle</a> </div>
 
             <div class="col-xs-12">
                 <div class="table-responsive" data-pattern="priority-columns">
                     <table id="tech-companies-1" class="table table-small-font no-mb table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th data-priority="1">Birim Kodu</th>
-                                <th data-priority="3">Birim Açıklaması</th>
-                                <th data-priority="1">Stok Türü</th>
-                                <th data-priority="1">Toplam Stok Miktarı</th>
-                                <th data-priority="1">Kritik Miktar</th>
-                                <th data-priority="1">Sınıf Adı</th>
-                                <th data-priority="1">Raf Bilgisi</th>
-                                <th data-priority="1">Dolap Bilgisi</th>
+                                <th data-priority="1">Para Birimi Adı</th>
+                                <th data-priority="3">Sembol</th>
                                 <th data-priority="1">İşlemler</th>
 
                             </tr>
@@ -35,18 +29,12 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <th><i class="fa fa-dot-circle-o complete"></i> @item.StockUnitCode</th>
-                                    <td> @item.UnitDescription</td>
-                                    <td><span class="status-complete">@item.StockTypeName</span></td>
-                                    <td><i class="fa fa-plus complete normal"></i>@item.Amount</td>
-                                    <td><i class="fa fa-plus complete normal"></i>@item.CriticalAmount</td>
-                                    <td><i class="fa fa-plus complete normal"></i>@item.StockClassName</td>
-                                    <td><i class="fa fa-plus complete normal"></i>@item.ShelfInformation</td>
-                                    <td><i class="fa fa-plus complete normal"></i>@item.CabinetInformation</td>
-                                    <td><i class="fa fa-plus complete normal"></i>@item.RecordDate</td>
-                                    <td><i class="fa fa-plus complete normal"></i>
-                                        <a asp-action="UpdateStock" asp-controller="Stock" asp-route-id="@item.StockID" class="btn btn-warning">Düzenle</a>
-                                        <a href="" data-toggle="modal" data-target="#DeleteModel" data-deleteStockModal="@item.StockID">Sil</a>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.Name</td>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.Symbol</td>
+                                    <td>
+                                        <i class="fa fa-plus complete normal"></i>
+                                        <a asp-action="UpdateCurrency" asp-controller="Currency" asp-route-id="@item.ID" class="btn btn-warning">Düzenle</a>
+                                        <a href="" data-toggle="modal" data-target="#DeleteModel" data-deleteCurrencyModal="@item.ID">Sil</a>
                                     </td>
                                 </tr>
                             }
@@ -86,18 +74,18 @@
 @section JavaScript{
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#DeleteModel").on("show.bs.modal", function (event) { 
-            
+            $("#DeleteModel").on("show.bs.modal", function (event) {
+
                 let delElement = $(event.relatedTarget);
-                let id = delElement.data("deleteStockModal");
+                let id = delElement.data("deleteCurrencyModal");
 
                 $("#btnDelete").click(function () {
                     $.ajax({
                         type: "Post",
-                        url:"./Stock/DeleteStock",
-                        data: {id:id},
+                        url: "./Currency/DeleteCurrency",
+                        data: { id: id },
                         dataType: "json",
-                        contentType:"application/json; charset=utf-8",
+                        contentType: "application/json; charset=utf-8",
                         success: function () {
                             //alert("işlem tamam");
                             window.location.reload();
@@ -110,5 +98,5 @@
             })
         });
     </script>
-   
+
 }
