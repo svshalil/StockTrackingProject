@@ -1,4 +1,4 @@
-﻿@model List<InsertCurrencyResponseModel>
+﻿@model List<InsertStockUnitResponseModel>
 
 <section class="box" style="border-left: 3px solid #e77512;">
     <header class="panel_header">
@@ -11,15 +11,21 @@
     </header>
     <div class="content-body">
         <div class="row">
-            <div class="col-md-offset-10 mb-10 "> <a asp-action="InsertCurrency" asp-controller="Currency" class="btn btn-success">Yeni para birimi Ekle</a> </div>
+            <div class="col-md-offset-10 mb-10 "> <a asp-action="InsertStockUnit" asp-controller="StockUnit" class="btn btn-success">Yeni Stok Ekle</a> </div>
 
             <div class="col-xs-12">
                 <div class="table-responsive" data-pattern="priority-columns">
                     <table id="tech-companies-1" class="table table-small-font no-mb table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th data-priority="1">Para Birimi Adı</th>
-                                <th data-priority="3">Sembol</th>
+                                <th data-priority="1">Birim Kodu</th>
+                                <th data-priority="3">Birim Açıklaması</th>
+                                <th data-priority="1">Stok Türü</th>
+                                <th data-priority="1">Toplam Stok Miktarı</th>
+                                <th data-priority="1">Kritik Miktar</th>
+                                <th data-priority="1">Sınıf Adı</th>
+                                <th data-priority="1">Raf Bilgisi</th>
+                                <th data-priority="1">Dolap Bilgisi</th>
                                 <th data-priority="1">İşlemler</th>
 
                             </tr>
@@ -29,12 +35,19 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td><i class="fa fa-plus complete normal"></i>@item.Name</td>
-                                    <td><i class="fa fa-plus complete normal"></i>@item.Symbol</td>
+                                    <th><i class="fa fa-dot-circle-o complete"></i> @item.ID</th>
+                                    <th><i class="fa fa-dot-circle-o complete"></i> @item.StockUnitCode</th>
+                                    <td><i class="fa fa-dot-circle-o complete"></i> @item.StockTypeName</td>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.AmountUnit</td>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.PurchasePrice @item.PurchasePriceCurrencyName</td>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.SalePrice  @item.SalePriceCurrencyName</td>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.PaperWeight</td>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.Status</td>
+                                    <td><i class="fa fa-plus complete normal"></i>@item.RecordDate</td>
                                     <td>
                                         <i class="fa fa-plus complete normal"></i>
-                                        <a asp-action="UpdateCurrency" asp-controller="Currency" asp-route-id="@item.ID" class="btn btn-warning">Düzenle</a>
-                                        <a href="" data-toggle="modal" data-target="#DeleteModel" data-deleteCurrencyModal="@item.ID">Sil</a>
+                                        <a asp-action="UpdateStockUnit" asp-controller="StockUnit" asp-route-id="@item.ID" class="btn btn-warning">Düzenle</a>
+                                        <a href="" data-toggle="modal" data-target="#DeleteModel" data-deleteStockUnitModal="@item.ID">Sil</a>
                                     </td>
                                 </tr>
                             }
@@ -48,7 +61,7 @@
     </div>
 </section>
 
-<div class="modal fade col-xs-12 in" id="DeleteModel" style="display: none; padding-right: 17px;">
+<div class="modal fade col-xs-12 in" id="DeleteModel" style="display: block; padding-right: 17px;">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -77,12 +90,12 @@
             $("#DeleteModel").on("show.bs.modal", function (event) {
 
                 let delElement = $(event.relatedTarget);
-                let id = delElement.data("deleteCurrencyModal");
+                let id = delElement.data("deleteStockUnitModal");
 
                 $("#btnDelete").click(function () {
                     $.ajax({
                         type: "Post",
-                        url: "./Currency/DeleteCurrency",
+                        url: "./StockUnit/DeleteStockUnit",
                         data: { id: id },
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",

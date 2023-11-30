@@ -13,7 +13,7 @@ namespace Entities.Concrete
         public decimal PurchasePrice { get; set; }
         public long PurchasePriceCurrencyID { get; set; }
         public decimal SalePrice { get; set; }
-        public int SalePriceCurrencyID { get; set; }
+        public long SalePriceCurrencyID { get; set; }
         public int PaperWeight { get; set; }
         public bool Status { get; set; }
         public DateTime RecordDate { get; set; }

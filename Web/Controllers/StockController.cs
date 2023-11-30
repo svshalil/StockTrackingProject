@@ -30,7 +30,7 @@ namespace Web.Controllers
             {
                 var stockunit = _stockUnitService.GetById(item.StockUnitID);
                 var stocktypes = _stockTypeService.GetById(item.StockTypeID);
-                var stockclass = _stockClassService.GetById(item.StockTypeID);
+                var stockclass = _stockClassService.GetById(item.StockClassID);
                 stockRespnseModel.Add(new InsertStockResponseModel
                 {
                     Amount = item.Amount,

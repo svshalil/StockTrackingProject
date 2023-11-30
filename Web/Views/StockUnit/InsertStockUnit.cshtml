@@ -1,0 +1,101 @@
+﻿@model InsertStockUnitRequestModel
+
+<div class="col-xs-12">
+    <section class="box ">
+        <header class="panel_header">
+            <h2 class="title pull-left">Vertical Form</h2>
+            <div class="actions panel_actions pull-right">
+                <a class="box_toggle fa fa-chevron-down"></a>
+                <a class="box_setting fa fa-cog" data-toggle="modal" href="#section-settings"></a>
+                <a class="box_close fa fa-times"></a>
+            </div>
+        </header>
+        <div class="content-body">
+            <div class="row">
+                <div class="col-md-8 col-sm-9 col-xs-10">
+
+                    <form method="post" asp-action="InsertStock">
+                        <div class="form-group">
+                            <label class="form-label" asp-for="StockTypeID">Stok Türü *</label>
+                            <span asp-validation-for="StockTypeID"></span>
+                            <select asp-for="StockTypeID" class="form-control input-lg m-bot15">
+                                <option value="-1">Bu alan gereklidir</option>
+                                @foreach (var item in ViewBag.stocktypes)
+                                {
+                                    <option value="@item.ID">@item.StockTypeName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" asp-for="StockUnitCode">Stok Birim Kodu *</label>
+                            <span asp-validation-for="StockUnitCode"></span>
+                            <input asp-for="StockUnitCode" type="text" class="form-control" id="field-13">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" asp-for="StockUnitName">Stok Birim Adı *</label>
+                            <span asp-validation-for="StockUnitName"></span>
+                            <input asp-for="StockUnitName" type="text" class="form-control" id="field-13">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" asp-for="AmountUnit">Miktar Birimi *</label>
+                            <span asp-validation-for="AmountUnit"></span>
+                            <select asp-for="AmountUnit" class="form-control input-lg m-bot15">
+                                <option value="-1">Bu alan gereklidir</option>
+                                <option value="Adet">Adet</option>
+                                <option value="Gram">Gram</option>
+                                <option value="m³">m³</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" asp-for="Description">Açıklama *</label>
+                            <span asp-validation-for="Description"></span>
+                            <input asp-for="Description" type="text" class="form-control" id="field-13">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" asp-for="PurchasePrice">Alış Fiyatı *</label>
+                            <span asp-validation-for="PurchasePrice"></span>
+                            <input asp-for="PurchasePrice" type="text" class="form-control" id="field-13">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" asp-for="PurchasePriceCurrencyID">Alış Fiyatı Para Birimi *</label>
+                            <span asp-validation-for="PurchasePriceCurrencyID"></span>
+                            <select asp-for="PurchasePriceCurrencyID" class="form-control input-lg m-bot15">
+                                <option value="-1">Bu alan gereklidir</option>
+                                @foreach (var item in ViewBag.currency)
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" asp-for="SalePrice">Satış Fiyatı *</label>
+                            <span asp-validation-for="SalePrice"></span>
+                            <input asp-for="SalePrice" type="text" class="form-control" id="field-13">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" asp-for="SalePriceCurrencyID">Satış Fiyatı Para Birimi *</label>
+                            <span asp-validation-for="SalePriceCurrencyID"></span>
+                            <select asp-for="SalePriceCurrencyID" class="form-control input-lg m-bot15">
+                                <option value="-1">Bu alan gereklidir</option>
+                                @foreach (var item in ViewBag.currency)
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary ">Kaydet</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section JavaScript{
+    <script src="~/lib/jqueryunob/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jqueryvalidate/jquery.validate.min.js"></script>
+}
