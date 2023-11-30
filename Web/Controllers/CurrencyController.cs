@@ -25,6 +25,7 @@ namespace Web.Controllers
             {
                 currencyRespnseModel.Add(new InsertCurrencyResponseModel
                 {
+                    ID = item.ID,
                     Name = item.Name,
                     Status = item.Status,
                     Symbol = item.Symbol
