@@ -5,37 +5,10 @@ using Entities.Concrete;
 
 namespace Business.Concrete
 {
-    public class CurrencyManager : ICurrencyService
+    public class CurrencyManager : GenericManager<Currency>, ICurrencyService
     {
-        private readonly ICurrencyDal _currencyDal;
-
-        public CurrencyManager(ICurrencyDal currencyDal)
+        public CurrencyManager(IGenericDal<Currency> genericDal) : base(genericDal)
         {
-            _currencyDal = currencyDal;
-        }
-        public void Delete(Currency request)
-        {
-            _currencyDal.Delete(request);
-        }
-
-        public List<Currency> GetAll()
-        {
-            return _currencyDal.GetAll();
-        }
-
-        public Currency GetById(long id)
-        {
-            return _currencyDal.GetById(id);
-        }
-
-        public void Insert(Currency request)
-        {
-            _currencyDal.Insert(request);
-        }
-
-        public void Update(Currency request)
-        {
-            _currencyDal.Update(request);
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Web.Controllers
         }
         public IActionResult Index()
         {
+            TempData["Sttopen"] = "open";
             List<StockType> StockTypes = _stockTypeService.GetAll();
 
             List<InsertStockTypeResponseModel> StockTypeRespnseModel = new List<InsertStockTypeResponseModel>();
@@ -74,7 +75,7 @@ namespace Web.Controllers
             {
                 _stockTypeService.Update(new StockType
                 {
-                    ID = 0,
+                    ID = updateStockType.ID,
                     StockTypeName = updateStockType.StockTypeName,
                     Status = true
                 });
@@ -84,13 +85,12 @@ namespace Web.Controllers
 
             return View(updateStockType);
         }
-
-        [HttpDelete]
-        public IActionResult DeleteStockType(long id)
+        [HttpPost]
+        public JsonResult DeleteStockType([FromBody] DeleteRequestModel delete)
         {
-            _stockTypeService.Delete(new StockType { ID = id });
+            _stockTypeService.Delete(new StockType { ID = delete.ID });
 
-            return NoContent();
+            return Json("Success");
         }
     }
 }

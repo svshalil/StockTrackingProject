@@ -46,7 +46,7 @@
                                     <td><i class="fa fa-plus complete normal"></i>@item.RecordDate</td>
                                     <td><i class="fa fa-plus complete normal"></i>
                                         <a asp-action="UpdateStock" asp-controller="Stock" asp-route-id="@item.StockID" class="btn btn-warning">Düzenle</a>
-                                        <a href="" data-toggle="modal" data-target="#DeleteModel" data-deleteStockModal="@item.StockID">Sil</a>
+                                        <a href="" data-toggle="modal" data-target="#DeleteModel" data-deletestockmodal="@item.StockID" class="btn btn-danger">Sil</a>
                                     </td>
                                 </tr>
                             }
@@ -60,7 +60,7 @@
     </div>
 </section>
 
-<div class="modal fade col-xs-12 in" id="DeleteModel" style="display: block; padding-right: 17px;">
+<div class="modal fade col-xs-12 in" id="DeleteModel" style="display: none; padding-right: 17px;">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -89,13 +89,13 @@
             $("#DeleteModel").on("show.bs.modal", function (event) { 
             
                 let delElement = $(event.relatedTarget);
-                let id = delElement.data("deleteStockModal");
-
+                let id = delElement.data("deletestockmodal");
+                var record = { ID: id }
                 $("#btnDelete").click(function () {
                     $.ajax({
                         type: "Post",
-                        url:"./Stock/DeleteStock",
-                        data: {id:id},
+                        url:"/Stock/DeleteStock",
+                        data: JSON.stringify(record),
                         dataType: "json",
                         contentType:"application/json; charset=utf-8",
                         success: function () {

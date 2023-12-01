@@ -2,7 +2,7 @@
 
 <section class="box" style="border-left: 3px solid #e77512;">
     <header class="panel_header">
-        <h2 class="title pull-left">Stoklar</h2>
+        <h2 class="title pull-left">Para Birimi</h2>
         <div class="actions panel_actions pull-right">
             <a class="box_toggle fa fa-chevron-down"></a>
             <a class="box_setting fa fa-cog" data-toggle="modal" href="#section-settings"></a>
@@ -29,12 +29,11 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td><i class="fa fa-plus complete normal"></i>@item.Name</td>
-                                    <td><i class="fa fa-plus complete normal"></i>@item.Symbol</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Symbol</td>
                                     <td>
-                                        <i class="fa fa-plus complete normal"></i>
                                         <a asp-action="UpdateCurrency" asp-controller="Currency" asp-route-id="@item.ID" class="btn btn-warning">Düzenle</a>
-                                        <a href="" data-toggle="modal" data-target="#DeleteModel" data-deleteCurrencyModal="@item.ID">Sil</a>
+                                        <a href="" data-toggle="modal" data-target="#DeleteModel" data-deletecurrencymodal="@item.ID" class="btn btn-danger">Sil</a>
                                     </td>
                                 </tr>
                             }
@@ -77,15 +76,16 @@
             $("#DeleteModel").on("show.bs.modal", function (event) {
 
                 let delElement = $(event.relatedTarget);
-                let id = delElement.data("deleteCurrencyModal");
-
+                let id = delElement.data("deletecurrencymodal");
+                var  record = { ID: id }
                 $("#btnDelete").click(function () {
                     $.ajax({
                         type: "Post",
-                        url: "./Currency/DeleteCurrency",
-                        data: { id: id },
+                        url: "/Currency/DeleteCurrency",
+                        data: JSON.stringify(record) ,
                         dataType: "json",
-                        contentType: "application/json; charset=utf-8",
+                        contentType: "application/json; charset=utf-8;",
+                        processData: false,
                         success: function () {
                             //alert("işlem tamam");
                             window.location.reload();

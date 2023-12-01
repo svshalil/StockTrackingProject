@@ -9,37 +9,10 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class StockUnitManager : IStockUnitService
+    public class StockUnitManager : GenericManager<StockUnit>, IStockUnitService
     {
-        private readonly IStockUnitDal _StockUnitDal;
-
-        public StockUnitManager(IStockUnitDal StockUnitDal)
+        public StockUnitManager(IGenericDal<StockUnit> genericDal) : base(genericDal)
         {
-            _StockUnitDal = StockUnitDal;
-        }
-        public void Delete(StockUnit request)
-        {
-            _StockUnitDal.Delete(request);
-        }
-
-        public List<StockUnit> GetAll()
-        {
-            return _StockUnitDal.GetAll();
-        }
-
-        public StockUnit GetById(long id)
-        {
-            return _StockUnitDal.GetById(id);
-        }
-
-        public void Insert(StockUnit request)
-        {
-            _StockUnitDal.Insert(request);
-        }
-
-        public void Update(StockUnit request)
-        {
-            _StockUnitDal.Update(request);
         }
     }
 }

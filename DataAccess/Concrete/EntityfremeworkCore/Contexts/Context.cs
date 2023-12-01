@@ -9,8 +9,8 @@ namespace DataAccess.Concrete.EntityfremeworkCore.Contexts
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=HALIL\\HALIL; database=StockTracking; integrated security=true;TrustServerCertificate=True");
-       
+            optionsBuilder.UseSqlServer("server=HALILT; database=StockTracking; integrated security=true;TrustServerCertificate=True;Command Timeout=300");
+           
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -21,6 +21,7 @@ namespace DataAccess.Concrete.EntityfremeworkCore.Contexts
             modelBuilder.ApplyConfiguration(new StockUnitMap());
             modelBuilder.ApplyConfiguration(new StockTypeMap());
             modelBuilder.ApplyConfiguration(new StockClassMap());
+            modelBuilder.ApplyConfiguration(new AppUserMap());
 
             base.OnModelCreating(modelBuilder);
         }

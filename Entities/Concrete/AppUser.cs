@@ -9,5 +9,8 @@ namespace Entities.Concrete
 {
     public class AppUser : IdentityUser<long>
     {
+        public string? FirstName { get; set; }
+        public string? SurName { get; set; }
+        public string? Picture { get; set; }
     }
 }

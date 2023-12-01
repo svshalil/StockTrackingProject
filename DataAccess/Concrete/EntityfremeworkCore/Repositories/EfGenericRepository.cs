@@ -2,6 +2,7 @@
 using DataAccess.Interfaces;
 using Entities.Concrete;
 using Entities.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,39 +13,41 @@ namespace DataAccess.Concrete.EntityfremeworkCore.Repositories
 {
     public class EfGenericRepository<T> : IGenericDal<T> where T : class,ITable, new()
     {
-        public void Delete(T request)
+        public async Task Delete(T request)
         {
             using var db = new Context();
             db.Set<T>().Remove(request);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
-        public List<T> GetAll()
+        public async Task<List<T>> GetAll()
         {
             using var db = new Context();
 
-            return db.Set<T>().ToList();
+            return await db.Set<T>().ToListAsync();
         }
 
-        public T GetById(long id)
+        public async Task<T> GetById(long id)
         {
             using var db = new Context();
 
-            return db.Set<T>().Find(id);
+            return await db.Set<T>().FindAsync(id);
         }
 
-        public void Insert(T request)
+        public async Task Insert(T request)
         {
             using var db = new Context();
             db.Set<T>().Add(request);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
-        public void Update(T request)
+        public async Task Update(T request)
         {
             using var db = new Context();
             db.Set<T>().Update(request);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
+
+      
     }
 }

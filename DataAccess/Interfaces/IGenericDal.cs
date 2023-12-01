@@ -10,10 +10,10 @@ namespace DataAccess.Interfaces
 {
     public interface IGenericDal<T> where T : class, ITable,new()
     {
-        void Insert(T request);
-        void Delete(T request);
-        void Update(T request);
-        T GetById(long id);
-        List<T> GetAll();
+        Task Insert(T request);
+        Task Delete(T request);
+        Task Update(T request);
+        Task<T> GetById(long id);
+        Task<List<T>> GetAll();
     }
 }

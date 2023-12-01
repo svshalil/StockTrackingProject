@@ -19,6 +19,7 @@ namespace Web.Controllers
         }
         public IActionResult Index()
         {
+            TempData["Stuopen"] = "open";
             List<StockUnit> stockUnits = _stockUnitService.GetAll();
 
             List<InsertStockUnitResponseModel> stockUnitRespnseModel = new List<InsertStockUnitResponseModel>();
@@ -137,12 +138,12 @@ namespace Web.Controllers
             return View(updateStockUnit);
         }
 
-        [HttpDelete]
-        public IActionResult DeleteStockUnit(long id)
+        [HttpPost]
+        public JsonResult DeleteStockUnit(DeleteRequestModel delete)
         {
-            _stockUnitService.Delete(new StockUnit { ID = id });
+            _stockUnitService.Delete(new StockUnit { ID = delete.ID });
 
-            return NoContent();
+            return Json("Success");
         }
     }
 }

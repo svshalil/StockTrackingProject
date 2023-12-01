@@ -4,26 +4,21 @@ using DataAccess.Concrete.EntityfremeworkCore.Contexts;
 using DataAccess.Concrete.EntityfremeworkCore.Repositories;
 using DataAccess.Interfaces;
 using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using Business.Containers.MicrosoftIoc;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IStockService, StockManager>();
-builder.Services.AddScoped<IStockUnitService, StockUnitManager>();
-builder.Services.AddScoped<IStockTypeService, StockTypeManager>();
-builder.Services.AddScoped<IStockClassService, StockClassManager>();
-builder.Services.AddScoped<ICurrencyService, CurrencyManager>();
-
-builder.Services.AddScoped<IStockDal, EfStockRepository>();
-builder.Services.AddScoped<IStockUnitDal, EfStockUnitRepository>();
-builder.Services.AddScoped<IStockTypeDal, EfStockTypeRepository>();
-builder.Services.AddScoped<IStockClassDal, EfStockClassRepository>();
-builder.Services.AddScoped<ICurrencyDal, EfCurrencyRepository>();
-
 builder.Services.AddDbContext<Context>();
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<Context>();
+
+builder.Services.AddDependencies();
 
 var app = builder.Build();
 

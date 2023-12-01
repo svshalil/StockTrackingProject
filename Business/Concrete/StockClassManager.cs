@@ -10,37 +10,10 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class StockClassManager : IStockClassService
+    public class StockClassManager : GenericManager<StockClass>, IStockClassService
     {
-        private readonly IStockClassDal _stockClassDal;
-
-        public StockClassManager(IStockClassDal stockClassDal)
+        public StockClassManager(IGenericDal<StockClass> genericDal) : base(genericDal)
         {
-            _stockClassDal = stockClassDal;
-        }
-        public void Delete(StockClass request)
-        {
-            _stockClassDal.Delete(request);
-        }
-
-        public List<StockClass> GetAll()
-        {
-            return _stockClassDal.GetAll();
-        }
-
-        public StockClass GetById(long id)
-        {
-            return _stockClassDal.GetById(id);
-        }
-
-        public void Insert(StockClass request)
-        {
-            _stockClassDal.Insert(request);
-        }
-
-        public void Update(StockClass request)
-        {
-            _stockClassDal.Update(request);
         }
     }
 }

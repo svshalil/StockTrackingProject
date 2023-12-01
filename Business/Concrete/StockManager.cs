@@ -5,37 +5,10 @@ using Entities.Concrete;
 
 namespace Business.Concrete
 {
-    public class StockManager: IStockService
+    public class StockManager : GenericManager<Stock>, IStockService
     {
-        private readonly IStockDal _stockDal;
-
-        public StockManager(IStockDal stockDal)
+        public StockManager(IGenericDal<Stock> genericDal) : base(genericDal)
         {
-            _stockDal = stockDal;
-        }
-        public void Delete(Stock request)
-        {
-            _stockDal.Delete(request);
-        }
-
-        public List<Stock> GetAll()
-        {
-            return _stockDal.GetAll();
-        }
-
-        public Stock GetById(long id)
-        {
-            return _stockDal.GetById(id);
-        }
-
-        public void Insert(Stock request)
-        {
-            _stockDal.Insert(request);
-        }
-
-        public void Update(Stock request)
-        {
-            _stockDal.Update(request);
         }
     }
 }

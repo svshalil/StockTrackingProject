@@ -20,17 +20,18 @@ namespace Web.Controllers
             _stockClassService = stockClassService;
 
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Stock> stocks = _stockService.GetAll();
+            TempData["Stopen"] = "open";
+            List<Stock> stocks = await _stockService.GetAll();
 
             List<InsertStockResponseModel> stockRespnseModel = new List<InsertStockResponseModel>();
 
             foreach (var item in stocks)
             {
-                var stockunit = _stockUnitService.GetById(item.StockUnitID);
-                var stocktypes = _stockTypeService.GetById(item.StockTypeID);
-                var stockclass = _stockClassService.GetById(item.StockClassID);
+                var stockunit = await _stockUnitService.GetById(item.StockUnitID);
+                var stocktypes = await _stockTypeService.GetById(item.StockTypeID);
+                var stockclass = await _stockClassService.GetById(item.StockClassID);
                 stockRespnseModel.Add(new InsertStockResponseModel
                 {
                     Amount = item.Amount,
@@ -49,24 +50,24 @@ namespace Web.Controllers
             return View(stockRespnseModel);
         }
 
-        public IActionResult InsertStock()
+        public async Task<IActionResult> InsertStock()
 
         {
-            ViewBag.stockUnits = _stockUnitService.GetAll();
-            ViewBag.stocktypes = _stockTypeService.GetAll();
-            ViewBag.stockclass = _stockClassService.GetAll();
+            ViewBag.stockUnits = await _stockUnitService.GetAll();
+            ViewBag.stocktypes = await _stockTypeService.GetAll();
+            ViewBag.stockclass = await _stockClassService.GetAll();
             return View(new InsertStockRequestModel());
         }
 
         [HttpPost]
-        public IActionResult InsertStock(InsertStockRequestModel requestModel)
+        public async Task<IActionResult> InsertStock(InsertStockRequestModel requestModel)
         {
-            ViewBag.stockUnits = _stockUnitService.GetAll();
-            ViewBag.stocktypes = _stockTypeService.GetAll();
-            ViewBag.stockclass = _stockClassService.GetAll();
+            ViewBag.stockUnits = await _stockUnitService.GetAll();
+            ViewBag.stocktypes = await _stockTypeService.GetAll();
+            ViewBag.stockclass = await _stockClassService.GetAll();
             if (ModelState.IsValid)
             {
-                _stockService.Insert(new Stock
+                await _stockService.Insert(new Stock
                 {
                     Amount = requestModel.Amount,
                     CabinetInformation = requestModel.CabinetInformation,
@@ -83,12 +84,12 @@ namespace Web.Controllers
             return View(requestModel);
         }
 
-        public IActionResult UpdateStock(long id)
+        public async Task<IActionResult> UpdateStock(long id)
         {
-            ViewBag.stockUnits = _stockUnitService.GetAll();
-            ViewBag.stocktypes = _stockTypeService.GetAll();
-            ViewBag.stockclass = _stockClassService.GetAll();
-            var getstock = _stockService.GetById(id);
+            ViewBag.stockUnits = await _stockUnitService.GetAll();
+            ViewBag.stocktypes = await _stockTypeService.GetAll();
+            ViewBag.stockclass = await _stockClassService.GetAll();
+            var getstock = await _stockService.GetById(id);
             UpdateStockResponseModel updateStock = new UpdateStockResponseModel
             {
                 Amount = getstock.Amount,
@@ -107,15 +108,15 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateStock(UpdateStockRequestModel updateStock)
+        public async Task<IActionResult> UpdateStock(UpdateStockRequestModel updateStock)
         {
-            ViewBag.stockUnits = _stockUnitService.GetAll();
-            ViewBag.stocktypes = _stockTypeService.GetAll();
-            ViewBag.stockclass = _stockClassService.GetAll();
+            ViewBag.stockUnits = await _stockUnitService.GetAll();
+            ViewBag.stocktypes = await _stockTypeService.GetAll();
+            ViewBag.stockclass = await _stockClassService.GetAll();
 
             if (ModelState.IsValid)
             {
-                _stockService.Update(new Stock
+                await _stockService.Update(new Stock
                 {
                     Amount = updateStock.Amount,
                     CriticalAmount = updateStock.CriticalAmount,
@@ -135,12 +136,12 @@ namespace Web.Controllers
             return View(updateStock);
         }
 
-        [HttpDelete]
-        public IActionResult DeleteStock(long id)
+        [HttpPost]
+        public async Task<JsonResult> DeleteStock(DeleteRequestModel delete)
         {
-            _stockService.Delete(new Stock { ID = id });
+            await _stockService.Delete(new Stock { ID = delete.ID });
 
-            return NoContent();
+            return Json("Success");
         }
     }
 }

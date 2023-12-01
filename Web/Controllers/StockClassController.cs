@@ -16,6 +16,7 @@ namespace Web.Controllers
         }
         public IActionResult Index()
         {
+            TempData["Stcopen"] = "open";
             List<StockClass> stockClasss = _stockClassService.GetAll();
 
             List<InsertStockClassResponseModel> StockClassRespnseModel = new List<InsertStockClassResponseModel>();
@@ -72,7 +73,7 @@ namespace Web.Controllers
             {
                 _stockClassService.Update(new StockClass
                 {
-                    ID = 0,
+                    ID = updateStockClass.ID,
                     StockClassName= updateStockClass.StockClassName
                 });
                 return RedirectToAction("Index");
@@ -82,12 +83,12 @@ namespace Web.Controllers
             return View(updateStockClass);
         }
 
-        [HttpDelete]
-        public IActionResult DeleteStockClass(long id)
+        [HttpPost]
+        public JsonResult DeleteStockClass(DeleteRequestModel delete)
         {
-            _stockClassService.Delete(new StockClass { ID = id });
+            _stockClassService.Delete(new StockClass { ID = delete.ID });
 
-            return NoContent();
+            return Json("Success");
         }
     }
 }

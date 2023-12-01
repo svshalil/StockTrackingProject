@@ -5,37 +5,10 @@ using Entities.Concrete;
 
 namespace Business.Concrete
 {
-    public class StockTypeManager : IStockTypeService
+    public class StockTypeManager : GenericManager<StockType>, IStockTypeService
     {
-        private readonly IStockTypeDal _stockTypeDal;
-
-        public StockTypeManager(IStockTypeDal stockTypeDal)
+        public StockTypeManager(IGenericDal<StockType> genericDal) : base(genericDal)
         {
-            _stockTypeDal = stockTypeDal;
-        }
-        public void Delete(StockType request)
-        {
-            _stockTypeDal.Delete(request);
-        }
-
-        public List<StockType> GetAll()
-        {
-            return _stockTypeDal.GetAll();
-        }
-
-        public StockType GetById(long id)
-        {
-            return _stockTypeDal.GetById(id);
-        }
-
-        public void Insert(StockType request)
-        {
-            _stockTypeDal.Insert(request);
-        }
-
-        public void Update(StockType request)
-        {
-            _stockTypeDal.Update(request);
         }
     }
 }

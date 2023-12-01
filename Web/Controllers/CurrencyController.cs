@@ -17,6 +17,7 @@ namespace Web.Controllers
         }
         public IActionResult Index()
         {
+            TempData["Cropen"] = "open";
             List<Currency> currencys = _currencyService.GetAll();
 
             List<InsertCurrencyResponseModel> currencyRespnseModel = new List<InsertCurrencyResponseModel>();
@@ -55,9 +56,9 @@ namespace Web.Controllers
             return View(requestModel);
         }
 
-        public IActionResult UpdateCurrency(long id)
+        public async Task<IActionResult> UpdateCurrency(long id)
         {
-            var getCurrency = _currencyService.GetById(id);
+            var getCurrency = await _currencyService.GetById(id);
             UpdateCurrencyResponseModel updateCurrency = new UpdateCurrencyResponseModel
             {
                 ID = getCurrency.ID,
@@ -78,7 +79,7 @@ namespace Web.Controllers
             {
                 _currencyService.Update(new Currency
                 {
-                    ID = 0,
+                    ID = updateCurrency.ID,
                     Name = updateCurrency.Name,
                     Status = updateCurrency.Status,
                     Symbol = updateCurrency.Symbol
@@ -90,12 +91,12 @@ namespace Web.Controllers
             return View(updateCurrency);
         }
 
-        [HttpDelete]
-        public IActionResult DeleteCurrency(long id)
+        [HttpPost]
+        public JsonResult DeleteCurrency([FromBody] DeleteRequestModel delete )
         {
-            _currencyService.Delete(new Currency { ID = id });
+            _currencyService.Delete(new Currency { ID = delete.ID });
 
-            return NoContent();
+            return Json("Success");
         }
     }
 }
