@@ -14,10 +14,10 @@ namespace Web.Controllers
         {
             _stockClassService = stockClassService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             TempData["Stcopen"] = "open";
-            List<StockClass> stockClasss = _stockClassService.GetAll();
+            List<StockClass> stockClasss = await _stockClassService.GetAll();
 
             List<InsertStockClassResponseModel> StockClassRespnseModel = new List<InsertStockClassResponseModel>();
 
@@ -38,11 +38,11 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult InsertStockClass(InsertStockClassRequestModel requestModel)
+        public async Task<IActionResult> InsertStockClass(InsertStockClassRequestModel requestModel)
         {
             if (ModelState.IsValid)
             {
-                _stockClassService.Insert(new StockClass
+               await _stockClassService.Insert(new StockClass
                 {
                    ID = requestModel.ID,
                    StockClassName = requestModel.StockClassName
@@ -52,9 +52,9 @@ namespace Web.Controllers
             return View(requestModel);
         }
 
-        public IActionResult UpdateStockClass(long id)
+        public async Task<IActionResult> UpdateStockClass(long id)
         {
-            var getStockClass = _stockClassService.GetById(id);
+            var getStockClass = await _stockClassService.GetById(id);
             UpdateStockClassResponseModel updateStockClass = new UpdateStockClassResponseModel
             {
                 ID = getStockClass.ID,
@@ -66,12 +66,12 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateStockClass(UpdateStockClassRequestModel updateStockClass)
+        public async Task<IActionResult> UpdateStockClass(UpdateStockClassRequestModel updateStockClass)
         {
 
             if (ModelState.IsValid)
             {
-                _stockClassService.Update(new StockClass
+               await _stockClassService.Update(new StockClass
                 {
                     ID = updateStockClass.ID,
                     StockClassName= updateStockClass.StockClassName
@@ -84,9 +84,9 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteStockClass(DeleteRequestModel delete)
+        public async Task<JsonResult> DeleteStockClass(DeleteRequestModel delete)
         {
-            _stockClassService.Delete(new StockClass { ID = delete.ID });
+            await _stockClassService.Delete(new StockClass { ID = delete.ID });
 
             return Json("Success");
         }

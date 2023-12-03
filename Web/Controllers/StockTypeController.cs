@@ -14,10 +14,10 @@ namespace Web.Controllers
         {
             _stockTypeService = stockTypeService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             TempData["Sttopen"] = "open";
-            List<StockType> StockTypes = _stockTypeService.GetAll();
+            List<StockType> StockTypes = await _stockTypeService.GetAll();
 
             List<InsertStockTypeResponseModel> StockTypeRespnseModel = new List<InsertStockTypeResponseModel>();
 
@@ -39,11 +39,11 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult InsertStockType(InsertStockTypeRequestModel requestModel)
+        public async Task<IActionResult> InsertStockType(InsertStockTypeRequestModel requestModel)
         {
             if (ModelState.IsValid)
             {
-                _stockTypeService.Insert(new StockType
+               await _stockTypeService.Insert(new StockType
                 {
                     ID = requestModel.ID,
                     StockTypeName = requestModel.StockTypeName,
@@ -54,9 +54,9 @@ namespace Web.Controllers
             return View(requestModel);
         }
 
-        public IActionResult UpdateStockType(long id)
+        public async Task<IActionResult> UpdateStockType(long id)
         {
-            var getStockType = _stockTypeService.GetById(id);
+            var getStockType = await _stockTypeService.GetById(id);
             UpdateStockTypeResponseModel updateStockType = new UpdateStockTypeResponseModel
             {
                 ID = getStockType.ID,
@@ -68,12 +68,12 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateStockType(UpdateStockTypeRequestModel updateStockType)
+        public async Task<IActionResult> UpdateStockType(UpdateStockTypeRequestModel updateStockType)
         {
 
             if (ModelState.IsValid)
             {
-                _stockTypeService.Update(new StockType
+               await _stockTypeService.Update(new StockType
                 {
                     ID = updateStockType.ID,
                     StockTypeName = updateStockType.StockTypeName,
@@ -86,9 +86,9 @@ namespace Web.Controllers
             return View(updateStockType);
         }
         [HttpPost]
-        public JsonResult DeleteStockType([FromBody] DeleteRequestModel delete)
+        public async Task<JsonResult> DeleteStockType([FromBody] DeleteRequestModel delete)
         {
-            _stockTypeService.Delete(new StockType { ID = delete.ID });
+            await _stockTypeService.Delete(new StockType { ID = delete.ID });
 
             return Json("Success");
         }

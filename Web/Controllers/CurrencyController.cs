@@ -15,10 +15,10 @@ namespace Web.Controllers
         {
             _currencyService = currencyService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             TempData["Cropen"] = "open";
-            List<Currency> currencys = _currencyService.GetAll();
+            List<Currency> currencys = await _currencyService.GetAll();
 
             List<InsertCurrencyResponseModel> currencyRespnseModel = new List<InsertCurrencyResponseModel>();
 
@@ -41,11 +41,11 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult InsertCurrency(InsertCurrencyRequestModel requestModel)
+        public async Task<IActionResult> InsertCurrency(InsertCurrencyRequestModel requestModel)
         {
             if (ModelState.IsValid)
             {
-                _currencyService.Insert(new Currency
+               await _currencyService.Insert(new Currency
                 {
                     Name = requestModel.Name,
                     Status = true,
@@ -72,12 +72,12 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateCurrency(UpdateCurrencyRequestModel updateCurrency)
+        public async Task<IActionResult> UpdateCurrency(UpdateCurrencyRequestModel updateCurrency)
         {
 
             if (ModelState.IsValid)
             {
-                _currencyService.Update(new Currency
+               await _currencyService.Update(new Currency
                 {
                     ID = updateCurrency.ID,
                     Name = updateCurrency.Name,
@@ -92,9 +92,9 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteCurrency([FromBody] DeleteRequestModel delete )
+        public async Task<JsonResult> DeleteCurrency([FromBody] DeleteRequestModel delete )
         {
-            _currencyService.Delete(new Currency { ID = delete.ID });
+            await _currencyService.Delete(new Currency { ID = delete.ID });
 
             return Json("Success");
         }
