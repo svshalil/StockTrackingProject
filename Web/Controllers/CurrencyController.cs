@@ -10,27 +10,38 @@ namespace Web.Controllers
     public class CurrencyController : Controller
     {
         private readonly ICurrencyService _currencyService;
+        private readonly ILogger<CurrencyController> _logger;
 
-        public CurrencyController(ICurrencyService currencyService)
+        public CurrencyController(ICurrencyService currencyService, ILogger<CurrencyController> logger)
         {
             _currencyService = currencyService;
+            _logger = logger;
         }
         public async Task<IActionResult> Index()
         {
-            TempData["Cropen"] = "open";
-            List<Currency> currencys = await _currencyService.GetAll();
-
             List<InsertCurrencyResponseModel> currencyRespnseModel = new List<InsertCurrencyResponseModel>();
-
-            foreach (var item in currencys)
+            try
             {
-                currencyRespnseModel.Add(new InsertCurrencyResponseModel
+                TempData["Cropen"] = "open";
+                List<Currency> currencys = await _currencyService.GetAll();
+
+
+
+                foreach (var item in currencys)
                 {
-                    ID = item.ID,
-                    Name = item.Name,
-                    Status = item.Status,
-                    Symbol = item.Symbol
-                });
+                    currencyRespnseModel.Add(new InsertCurrencyResponseModel
+                    {
+                        ID = item.ID,
+                        Name = item.Name,
+                        Status = item.Status,
+                        Symbol = item.Symbol
+                    });
+                }
+                _logger.LogInformation("Currency Index list Count: " + currencyRespnseModel.Count());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Currency Index list :" + ex.ToString());
             }
             return View(currencyRespnseModel);
         }
@@ -43,30 +54,44 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> InsertCurrency(InsertCurrencyRequestModel requestModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-               await _currencyService.Insert(new Currency
+                if (ModelState.IsValid)
                 {
-                    Name = requestModel.Name,
-                    Status = true,
-                    Symbol = requestModel.Symbol
-                });
-                return RedirectToAction("Index");
+                    await _currencyService.Insert(new Currency
+                    {
+                        Name = requestModel.Name,
+                        Status = true,
+                        Symbol = requestModel.Symbol
+                    });
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError("Currency Insert :" + ex.ToString());
             }
             return View(requestModel);
         }
 
         public async Task<IActionResult> UpdateCurrency(long id)
         {
-            var getCurrency = await _currencyService.GetById(id);
-            UpdateCurrencyResponseModel updateCurrency = new UpdateCurrencyResponseModel
+            UpdateCurrencyResponseModel updateCurrency = new UpdateCurrencyResponseModel();
+            try
             {
-                ID = getCurrency.ID,
-                Name = getCurrency.Name,
-                Status = getCurrency.Status,
-                Symbol = getCurrency.Symbol
+                var getCurrency = await _currencyService.GetById(id);
 
-            };
+                updateCurrency.ID = getCurrency.ID;
+                updateCurrency.Name = getCurrency.Name;
+                updateCurrency.Status = getCurrency.Status;
+                updateCurrency.Symbol = getCurrency.Symbol;
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError("Currency Update GetById :" + ex.ToString());
+            }
 
             return View(updateCurrency);
         }
@@ -75,16 +100,24 @@ namespace Web.Controllers
         public async Task<IActionResult> UpdateCurrency(UpdateCurrencyRequestModel updateCurrency)
         {
 
-            if (ModelState.IsValid)
+            try
             {
-               await _currencyService.Update(new Currency
+                if (ModelState.IsValid)
                 {
-                    ID = updateCurrency.ID,
-                    Name = updateCurrency.Name,
-                    Status = updateCurrency.Status,
-                    Symbol = updateCurrency.Symbol
-                });
-                return RedirectToAction("Index");
+                    await _currencyService.Update(new Currency
+                    {
+                        ID = updateCurrency.ID,
+                        Name = updateCurrency.Name,
+                        Status = updateCurrency.Status,
+                        Symbol = updateCurrency.Symbol
+                    });
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError("Currency Update :" + ex.ToString());
             }
 
 
@@ -92,9 +125,17 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> DeleteCurrency([FromBody] DeleteRequestModel delete )
+        public async Task<JsonResult> DeleteCurrency([FromBody] DeleteRequestModel delete)
         {
-            await _currencyService.Delete(new Currency { ID = delete.ID });
+            try
+            {
+                await _currencyService.Delete(new Currency { ID = delete.ID });
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError("Currency Delete :" + ex.ToString());
+            }
 
             return Json("Success");
         }

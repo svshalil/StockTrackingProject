@@ -11,98 +11,131 @@ namespace Web.Controllers
         private readonly IStockUnitService _stockUnitService;
         private readonly IStockTypeService _stockTypeService;
         private readonly ICurrencyService _currencyService;
-        public StockUnitController(IStockUnitService stockUnitService, IStockTypeService stockTypeService, ICurrencyService currencyService)
+        private readonly ILogger<StockUnitController> _logger;
+        public StockUnitController(IStockUnitService stockUnitService, IStockTypeService stockTypeService, ICurrencyService currencyService, ILogger<StockUnitController> logger)
         {
             _stockUnitService = stockUnitService;
             _stockTypeService = stockTypeService;
             _currencyService = currencyService;
+            _logger = logger;
         }
         public async Task<IActionResult> Index()
         {
-            TempData["Stuopen"] = "open";
-            List<StockUnit> stockUnits = await _stockUnitService.GetAll();
-
             List<InsertStockUnitResponseModel> stockUnitRespnseModel = new List<InsertStockUnitResponseModel>();
 
-            foreach (var item in stockUnits)
+            try
             {
-                var stocktypes = await _stockTypeService.GetById(item.StockTypeID);
-                var salePriceCurrencyName = await _currencyService.GetById(item.SalePriceCurrencyID);
-                var PurchasePriceCurrencyName = await _currencyService.GetById(item.PurchasePriceCurrencyID);
-                stockUnitRespnseModel.Add(new InsertStockUnitResponseModel
+                TempData["Stuopen"] = "open";
+                List<StockUnit> stockUnits = await _stockUnitService.GetAll();
+
+
+                foreach (var item in stockUnits)
                 {
-                    AmountUnit = item.AmountUnit,
-                    Description = item.Description,
-                    ID = item.ID,
-                    PaperWeight = item.PaperWeight,
-                    PurchasePrice = item.PurchasePrice,
-                    PurchasePriceCurrencyName = salePriceCurrencyName == null ? "" : salePriceCurrencyName.Name,
-                    SalePrice = item.SalePrice,
-                    SalePriceCurrencyName = PurchasePriceCurrencyName == null ? "" : PurchasePriceCurrencyName.Name,
-                    StockUnitCode = item.StockUnitCode,
-                    StockUnitName = item.StockUnitName,
-                    StockTypeName = stocktypes == null ? "" : stocktypes.StockTypeName,
-                    Status = item.Status,
-                    RecordDate = item.RecordDate,
-                });
+                    var stocktypes = await _stockTypeService.GetById(item.StockTypeID);
+                    var salePriceCurrencyName = await _currencyService.GetById(item.SalePriceCurrencyID);
+                    var PurchasePriceCurrencyName = await _currencyService.GetById(item.PurchasePriceCurrencyID);
+                    stockUnitRespnseModel.Add(new InsertStockUnitResponseModel
+                    {
+                        AmountUnit = item.AmountUnit,
+                        Description = item.Description,
+                        ID = item.ID,
+                        PaperWeight = item.PaperWeight,
+                        PurchasePrice = item.PurchasePrice,
+                        PurchasePriceCurrencyName = salePriceCurrencyName == null ? "" : salePriceCurrencyName.Name,
+                        SalePrice = item.SalePrice,
+                        SalePriceCurrencyName = PurchasePriceCurrencyName == null ? "" : PurchasePriceCurrencyName.Name,
+                        StockUnitCode = item.StockUnitCode,
+                        StockUnitName = item.StockUnitName,
+                        StockTypeName = stocktypes == null ? "" : stocktypes.StockTypeName,
+                        Status = item.Status,
+                        RecordDate = item.RecordDate,
+                    });
+                }
+                _logger.LogInformation("StockUnit Index list Count: " + stockUnitRespnseModel.Count());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("StockUnit Index list :" + ex.ToString());
             }
             return View(stockUnitRespnseModel);
         }
 
         public IActionResult InsertStockUnit()
         {
-            ViewBag.stocktypes = _stockTypeService.GetAll();
-            ViewBag.currency = _currencyService.GetAll();
+            try
+            {
+                ViewBag.stocktypes = _stockTypeService.GetAll();
+                ViewBag.currency = _currencyService.GetAll();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("StockUnit Insert GetAll :" + ex.ToString());
+            }
             return View(new InsertStockRequestModel());
         }
 
         [HttpPost]
         public IActionResult InsertStockUnit(InsertStockUnitRequestModel requestModel)
         {
-            ViewBag.stocktypes = _stockTypeService.GetAll();
-            ViewBag.currency = _currencyService.GetAll();
-            if (ModelState.IsValid)
+            try
             {
-                _stockUnitService.Insert(new StockUnit
+                ViewBag.stocktypes = _stockTypeService.GetAll();
+                ViewBag.currency = _currencyService.GetAll();
+                if (ModelState.IsValid)
                 {
-                    SalePrice = requestModel.SalePrice,
-                    RecordDate = DateTime.Now,
-                    StockUnitName = requestModel.StockUnitName,
-                    StockUnitCode = requestModel.StockUnitCode,
-                    PurchasePriceCurrencyID = requestModel.PurchasePriceCurrencyID,
-                    SalePriceCurrencyID = requestModel.SalePriceCurrencyID,
-                    AmountUnit = requestModel.AmountUnit,
-                    Description = requestModel.Description,
-                    ID = 0,
-                    PaperWeight = requestModel.PaperWeight,
-                    PurchasePrice = requestModel.PurchasePrice,
-                    Status = true,
-                    StockTypeID = requestModel.StockTypeID,
-                });
-                return RedirectToAction("Index");
+                    _stockUnitService.Insert(new StockUnit
+                    {
+                        SalePrice = requestModel.SalePrice,
+                        RecordDate = DateTime.Now,
+                        StockUnitName = requestModel.StockUnitName,
+                        StockUnitCode = requestModel.StockUnitCode,
+                        PurchasePriceCurrencyID = requestModel.PurchasePriceCurrencyID,
+                        SalePriceCurrencyID = requestModel.SalePriceCurrencyID,
+                        AmountUnit = requestModel.AmountUnit,
+                        Description = requestModel.Description,
+                        ID = 0,
+                        PaperWeight = requestModel.PaperWeight,
+                        PurchasePrice = requestModel.PurchasePrice,
+                        Status = true,
+                        StockTypeID = requestModel.StockTypeID,
+                    });
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("StockUnit Insert :" + ex.ToString());
             }
             return View(requestModel);
         }
 
         public async Task<IActionResult> UpdateStockUnit(long id)
         {
-            ViewBag.stocktypes = await _stockTypeService.GetAll();
-            ViewBag.currency = await _currencyService.GetAll();
-            var getstockUnit = await _stockUnitService.GetById(id);
-            UpdateStockUnitResponseModel updateStock = new UpdateStockUnitResponseModel
+            UpdateStockUnitResponseModel updateStock = new UpdateStockUnitResponseModel();
+
+            try
             {
-                StockTypeID = getstockUnit.StockTypeID,
-                PurchasePrice = getstockUnit.PurchasePrice,
-                PaperWeight = getstockUnit.PaperWeight,
-                ID = getstockUnit.ID,
-                Description = getstockUnit.Description,
-                AmountUnit = getstockUnit.AmountUnit,
-                PurchasePriceCurrencyID = getstockUnit.PurchasePriceCurrencyID,
-                SalePrice = getstockUnit.SalePrice,
-                SalePriceCurrencyID = getstockUnit.SalePriceCurrencyID,
-                StockUnitCode = getstockUnit.StockUnitCode,
-                StockUnitName = getstockUnit.StockUnitName
-            };
+                ViewBag.stocktypes = await _stockTypeService.GetAll();
+                ViewBag.currency = await _currencyService.GetAll();
+                var getstockUnit = await _stockUnitService.GetById(id);
+
+
+                updateStock.StockTypeID = getstockUnit.StockTypeID;
+                updateStock.PurchasePrice = getstockUnit.PurchasePrice;
+                updateStock.PaperWeight = getstockUnit.PaperWeight;
+                updateStock.ID = getstockUnit.ID;
+                updateStock.Description = getstockUnit.Description;
+                updateStock.AmountUnit = getstockUnit.AmountUnit;
+                updateStock.PurchasePriceCurrencyID = getstockUnit.PurchasePriceCurrencyID;
+                updateStock.SalePrice = getstockUnit.SalePrice;
+                updateStock.SalePriceCurrencyID = getstockUnit.SalePriceCurrencyID;
+                updateStock.StockUnitCode = getstockUnit.StockUnitCode;
+                updateStock.StockUnitName = getstockUnit.StockUnitName;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("StockUnit Update GetById :" + ex.ToString());
+            }
 
             return View(updateStock);
         }
@@ -110,28 +143,35 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateStockUnit(UpdateStockUnitRequestModel updateStockUnit)
         {
-            ViewBag.stocktypes = _stockTypeService.GetAll();
-            ViewBag.currency = _currencyService.GetAll();
-
-            if (ModelState.IsValid)
+            try
             {
-                await _stockUnitService.Update(new StockUnit
+                ViewBag.stocktypes = _stockTypeService.GetAll();
+                ViewBag.currency = _currencyService.GetAll();
+
+                if (ModelState.IsValid)
                 {
-                    StockUnitName = updateStockUnit.StockUnitName,
-                    StockUnitCode = updateStockUnit.StockUnitCode,
-                    SalePriceCurrencyID = updateStockUnit.SalePriceCurrencyID,
-                    SalePrice = updateStockUnit.SalePrice,
-                    PurchasePriceCurrencyID = updateStockUnit.PurchasePriceCurrencyID,
-                    AmountUnit = updateStockUnit.AmountUnit,
-                    Description = updateStockUnit.Description,
-                    ID = updateStockUnit.ID,
-                    PaperWeight = updateStockUnit.PaperWeight,
-                    PurchasePrice = updateStockUnit.PurchasePrice,
-                    RecordDate = DateTime.Now,
-                    Status = true,
-                    StockTypeID = updateStockUnit.StockTypeID,
-                });
-                return RedirectToAction("Index");
+                    await _stockUnitService.Update(new StockUnit
+                    {
+                        StockUnitName = updateStockUnit.StockUnitName,
+                        StockUnitCode = updateStockUnit.StockUnitCode,
+                        SalePriceCurrencyID = updateStockUnit.SalePriceCurrencyID,
+                        SalePrice = updateStockUnit.SalePrice,
+                        PurchasePriceCurrencyID = updateStockUnit.PurchasePriceCurrencyID,
+                        AmountUnit = updateStockUnit.AmountUnit,
+                        Description = updateStockUnit.Description,
+                        ID = updateStockUnit.ID,
+                        PaperWeight = updateStockUnit.PaperWeight,
+                        PurchasePrice = updateStockUnit.PurchasePrice,
+                        RecordDate = DateTime.Now,
+                        Status = true,
+                        StockTypeID = updateStockUnit.StockTypeID,
+                    });
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("StockUnit Update :" + ex.ToString());
             }
 
 
@@ -141,7 +181,14 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<JsonResult> DeleteStockUnit(DeleteRequestModel delete)
         {
-            await _stockUnitService.Delete(new StockUnit { ID = delete.ID });
+            try
+            {
+                await _stockUnitService.Delete(new StockUnit { ID = delete.ID });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("StockUnit Delete :" + ex.ToString());
+            }
 
             return Json("Success");
         }
